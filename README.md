@@ -79,12 +79,7 @@ INSTALL EXTENSION vsql_extension_template;
 Then test the function:
 
 ```sql
--- Functions can be called with or without the extension prefix
 SELECT hello_world();
--- Returns: Hello, World!
-
--- Or with explicit namespace qualification
-SELECT vsql_extension_template.hello_world();
 -- Returns: Hello, World!
 ```
 
@@ -179,7 +174,6 @@ To create your own extension:
 ## Extension Development Tips
 
 - **Extension Naming**: Always use underscores in extension names, not hyphens
-- **Function Qualification**: Functions can be called with or without namespace qualification. Use `extension_name.function_name()` when disambiguation is needed
 - **Return Types**: Common types are `STRING`, `INT`, `REAL`, or custom types
 - **Result Types**: Set `result->type` to `VEF_RESULT_VALUE`, `VEF_RESULT_NULL`, or `VEF_RESULT_ERROR`
 - **String Results**: Copy to `result->str_buf` and set `result->actual_len`
@@ -265,18 +259,9 @@ cmake .. -DVillageSQL_BUILD_DIR=~/build/villagesql
 brew install openssl@3
 cmake .. -DVillageSQL_BUILD_DIR=~/build/villagesql -DWITH_SSL=/opt/homebrew/opt/openssl@3
 
-# Linux (Ubuntu/Debian)
-sudo apt-get install libssl-dev
-cmake .. -DVillageSQL_BUILD_DIR=$HOME/build/villagesql -DWITH_SSL=system
-```
-
-**CMake version too old:**
-```bash
-# macOS
-brew install cmake
-
-# Linux
-sudo apt-get install cmake
+```sql
+INSTALL EXTENSION vsql_extension_template;
+SELECT greet('VillageSQL');
 ```
 
 ### Extension Loading Issues
